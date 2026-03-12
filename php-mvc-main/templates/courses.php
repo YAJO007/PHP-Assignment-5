@@ -6,7 +6,7 @@
     <title>เลือกวิชา - ระบบลงทะเบียนเรียน</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-br from-blue-600 to-purple-700 min-h-screen p-4 sm:p-6">
+<body class="bg-gradient-to-br from-purple-600 to-purple-800 min-h-screen p-4 sm:p-6">
     <div class="max-w-6xl mx-auto">
         <!-- Header -->
         <header class="bg-white rounded-lg shadow-lg p-6 mb-6">
@@ -27,7 +27,7 @@
         <!-- Navigation Tabs -->
         <div class="flex gap-2 mb-6 flex-wrap">
             <button onclick="showTab('available')" id="btn-available" 
-                class="tab-btn active bg-white text-blue-600 font-bold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition">
+                class="tab-btn active bg-white text-purple-600 font-bold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition shadow-purple-500/50">
                 📋 วิชาที่สามารถลงทะเบียน (<?= count($data['availableCourses']) ?>)
             </button>
             <button onclick="showTab('enrolled')" id="btn-enrolled" 
@@ -41,8 +41,8 @@
             <?php if (count($data['availableCourses']) > 0): ?>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <?php foreach ($data['availableCourses'] as $course): ?>
-                        <div class="bg-white rounded-lg shadow-lg hover:shadow-2xl transition hover:-translate-y-1 p-6 border-l-4 border-blue-600">
-                            <p class="text-blue-600 font-bold text-sm mb-1"><?= htmlspecialchars($course['course_code']) ?></p>
+                        <div class="bg-white rounded-lg shadow-lg hover:shadow-2xl transition hover:-translate-y-1 p-6 border-l-4 border-purple-500 shadow-purple-500/30">
+                            <p class="text-purple-600 font-bold text-sm mb-1"><?= htmlspecialchars($course['course_code']) ?></p>
                             <h3 class="text-lg font-bold text-gray-800 mb-3"><?= htmlspecialchars($course['course_name']) ?></h3>
                             
                             <div class="text-sm text-gray-600 space-y-1 mb-4">
@@ -56,7 +56,7 @@
                             </p>
 
                             <button onclick="enrollConfirm(<?= $course['id'] ?>, '<?= htmlspecialchars($course['course_name']) ?>')" 
-                                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg transition">
+                                class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded-lg transition shadow-purple-500/50">
                                 ลงทะเบียน
                             </button>
                         </div>
@@ -74,14 +74,14 @@
             <?php if (count($data['enrolledCourses']) > 0): ?>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <?php foreach ($data['enrolledCourses'] as $course): ?>
-                        <div class="bg-white rounded-lg shadow-lg hover:shadow-2xl transition hover:-translate-y-1 p-6 border-l-4 border-green-600">
-                            <p class="text-green-600 font-bold text-sm mb-1"><?= htmlspecialchars($course['course_code']) ?></p>
+                        <div class="bg-white rounded-lg shadow-lg hover:shadow-2xl transition hover:-translate-y-1 p-6 border-l-4 border-purple-400 shadow-purple-400/30">
+                            <p class="text-purple-500 font-bold text-sm mb-1"><?= htmlspecialchars($course['course_code']) ?></p>
                             <h3 class="text-lg font-bold text-gray-800 mb-3"><?= htmlspecialchars($course['course_name']) ?></h3>
                             
                             <div class="text-sm text-gray-600 space-y-1 mb-4">
                                 <p><strong>อาจารย์:</strong> <?= htmlspecialchars($course['professor']) ?></p>
                                 <p><strong>หน่วยกิต:</strong> <?= $course['credit'] ?> | <strong>ภาค:</strong> <?= $course['semester'] ?></p>
-                                <p class="text-xs text-green-700">✓ ลงทะเบียน: <?= date('d/m/Y', strtotime($course['enrolled_at'])) ?></p>
+                                <p class="text-xs text-purple-600">✓ ลงทะเบียน: <?= date('d/m/Y', strtotime($course['enrolled_at'])) ?></p>
                             </div>
 
                             <p class="text-sm text-gray-600 mb-4 h-12 overflow-hidden">
@@ -89,7 +89,7 @@
                             </p>
 
                             <button onclick="withdrawConfirm(<?= $course['id'] ?>, '<?= htmlspecialchars($course['course_name']) ?>')" 
-                                class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 rounded-lg transition">
+                                class="w-full bg-purple-400 hover:bg-purple-500 text-white font-bold py-2 rounded-lg transition shadow-purple-400/50">
                                 ถอนวิชา
                             </button>
                         </div>
@@ -105,11 +105,11 @@
 
     <!-- Confirmation Modal -->
     <div id="modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-lg shadow-2xl p-6 max-w-sm w-full">
+        <div class="bg-white rounded-lg shadow-2xl p-6 max-w-sm w-full border-2 border-purple-500 shadow-purple-500/50">
             <h2 id="modalTitle" class="text-xl font-bold text-gray-800 mb-3"></h2>
             <p id="modalMessage" class="text-gray-600 mb-6"></p>
             <div class="flex gap-3">
-                <button onclick="submitAction()" id="confirmBtn" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg transition">
+                <button onclick="submitAction()" id="confirmBtn" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded-lg transition shadow-purple-500/50">
                     ยืนยัน
                 </button>
                 <button onclick="closeModal()" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 rounded-lg transition">
@@ -131,7 +131,7 @@
                 el.classList.remove('active');
             });
             document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active', 'bg-white', 'text-blue-600');
+                btn.classList.remove('active', 'bg-white', 'text-purple-600');
                 btn.classList.add('inactive', 'bg-gray-100', 'text-gray-600');
             });
 
@@ -139,7 +139,7 @@
             document.getElementById(tabName).classList.remove('hidden');
             document.getElementById(tabName).classList.add('active');
             document.getElementById('btn-' + tabName).classList.remove('inactive', 'bg-gray-100', 'text-gray-600');
-            document.getElementById('btn-' + tabName).classList.add('active', 'bg-white', 'text-blue-600');
+            document.getElementById('btn-' + tabName).classList.add('active', 'bg-white', 'text-purple-600');
         }
 
         // ยืนยันการลงทะเบียน

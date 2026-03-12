@@ -1,0 +1,11 @@
+# Add this line to your Windows hosts file:
+# Location: C:\Windows\System32\drivers\etc\hosts
+
+127.0.0.1    reg.localhost
+
+# Instructions:
+# 1. Open Notepad as Administrator
+# 2. Open file: C:\Windows\System32\drivers\etc\hosts
+# 3. Add the line above at the end of the file
+# 4. Save the file
+# 5. Restart your browser or flush DNS: ipconfig /flushdns
