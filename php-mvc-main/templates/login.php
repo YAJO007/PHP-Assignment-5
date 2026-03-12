@@ -3,41 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>เข้าสู่ระบบ - ระบบลงทะเบียนเรียน</title>
+    <title>เข้าสู่ระบบ</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap');
+        body { font-family: 'Kanit', sans-serif; }
+    </style>
 </head>
-<body class="bg-gradient-to-br from-purple-600 to-purple-800 min-h-screen flex items-center justify-center p-4">
-    <div class="bg-white rounded-lg shadow-2xl p-8 w-full max-w-md border-2 border-purple-500 shadow-purple-500/50">
-        <h1 class="text-3xl font-bold text-center text-gray-800 mb-8">🔐 เข้าสู่ระบบ</h1>
+<body class="bg-gradient-to-br from-purple-700 to-purple-900 min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-md">
+        <!-- Logo -->
+        <div class="text-center mb-8">
+            <div class="text-5xl mb-4">📚</div>
+            <h1 class="text-2xl font-light text-white mb-2">เข้าสู่ระบบ</h1>
+        </div>
 
-        <?php if (isset($data['error'])): ?>
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
-                <?= htmlspecialchars($data['error']) ?>
+        <!-- Login Form -->
+        <div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-8">
+            <?php if (isset($data['error'])): ?>
+                <div class="bg-red-50 text-red-600 px-4 py-3 rounded-lg mb-6 text-sm">
+                    <?= htmlspecialchars($data['error']) ?>
+                </div>
+            <?php endif; ?>
+
+            <form method="POST" class="space-y-5">
+                <div>
+                    <input type="text" id="username" name="username" required autofocus 
+                        class="w-full px-4 py-3 border-0 bg-gray-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+                        placeholder="ชื่อผู้ใช้">
+                </div>
+
+                <div>
+                    <input type="password" id="password" name="password" required 
+                        class="w-full px-4 py-3 border-0 bg-gray-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+                        placeholder="รหัสผ่าน">
+                </div>
+
+                <button type="submit" 
+                    class="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 rounded-lg transition">
+                    เข้าสู่ระบบ
+                </button>
+            </form>
+
+            <!-- Demo Info -->
+            <div class="mt-6 pt-6 border-t border-gray-200">
+                <p class="text-xs text-gray-500 text-center mb-2">บัญชีสำหรับทดลอง</p>
+                <div class="text-center">
+                    <span class="text-xs text-gray-600">demo / 1234</span>
+                </div>
             </div>
-        <?php endif; ?>
-
-        <form method="POST" class="space-y-6">
-            <div>
-                <label for="username" class="block text-sm font-medium text-gray-700 mb-2">ชื่อผู้ใช้:</label>
-                <input type="text" id="username" name="username" required autofocus 
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition">
-            </div>
-
-            <div>
-                <label for="password" class="block text-sm font-medium text-gray-700 mb-2">รหัสผ่าน:</label>
-                <input type="password" id="password" name="password" required 
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition">
-            </div>
-
-            <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-lg transition duration-300 transform hover:scale-105 shadow-lg shadow-purple-500/50">
-                เข้าสู่ระบบ
-            </button>
-        </form>
-
-        <div class="bg-purple-50 border border-purple-200 p-4 rounded-lg mt-8 text-sm">
-            <p class="font-semibold text-purple-900 mb-2">📝 ตัวอย่างการใช้งาน:</p>
-            <p class="text-purple-800">Username: <span class="font-mono bg-white px-2 py-1 rounded">demo</span></p>
-            <p class="text-purple-800">Password: <span class="font-mono bg-white px-2 py-1 rounded">1234</span></p>
         </div>
     </div>
 </body>

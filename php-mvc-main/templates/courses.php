@@ -3,116 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>เลือกวิชา - ระบบลงทะเบียนเรียน</title>
+    <title>เลือกวิชา</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap');
+        body { font-family: 'Kanit', sans-serif; }
+    </style>
 </head>
-<body class="bg-gradient-to-br from-purple-600 to-purple-800 min-h-screen p-4 sm:p-6">
-    <div class="max-w-6xl mx-auto">
-        <!-- Header -->
-        <header class="bg-white rounded-lg shadow-lg p-6 mb-6">
-            <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
-                <div>
-                    <h1 class="text-3xl font-bold text-gray-800">🎓 ระบบลงทะเบียนเรียน</h1>
-                    <p class="text-gray-600">เลือกและจัดการวิชาเรียน</p>
-                </div>
-                <div class="text-center sm:text-right">
-                    <p class="font-semibold text-gray-800 mb-2">👤 <?= htmlspecialchars($_SESSION['fullname'] ?? 'ผู้ใช้') ?></p>
-                    <a href="/logout" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-lg transition">
-                        ออกจากระบบ
-                    </a>
+<body class="bg-gradient-to-br from-purple-700 to-purple-900 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white/5 backdrop-blur-sm border-b border-white/10">
+        <div class="max-w-6xl mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <h1 class="text-xl font-light text-white">📚 วิชาเรียน</h1>
+                <div class="flex items-center space-x-4">
+                    <span class="text-white/70 text-sm"><?= htmlspecialchars($_SESSION['fullname'] ?? 'ผู้ใช้') ?></span>
+                    <a href="/logout" class="text-white/70 hover:text-white text-sm">ออกจากระบบ</a>
                 </div>
             </div>
-        </header>
+        </div>
+    </header>
 
-        <!-- Navigation Tabs -->
-        <div class="flex gap-2 mb-6 flex-wrap">
+        <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-6 py-8">
+        <!-- Tabs -->
+        <div class="flex space-x-2 mb-8">
             <button onclick="showTab('available')" id="btn-available" 
-                class="tab-btn active bg-white text-purple-600 font-bold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition shadow-purple-500/50">
-                📋 วิชาที่สามารถลงทะเบียน (<?= count($data['availableCourses']) ?>)
+                class="tab-btn bg-white text-purple-700 px-6 py-2 rounded-lg font-medium">
+                📖 วิชาที่สามารถลงทะเบียน (<?= count($data['availableCourses']) ?>)
             </button>
             <button onclick="showTab('enrolled')" id="btn-enrolled" 
-                class="tab-btn inactive bg-gray-100 text-gray-600 font-bold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition">
-                ✓ วิชาที่ลงทะเบียนแล้ว (<?= count($data['enrolledCourses']) ?>)
+                class="tab-btn text-white/70 hover:text-white px-6 py-2 rounded-lg font-medium">
+                 วิชาที่ลงทะเบียนแล้ว (<?= count($data['enrolledCourses']) ?>)
             </button>
         </div>
 
-        <!-- Available Courses Section -->
-        <section id="available" class="tab-section active">
+        <!-- Available Courses -->
+        <section id="available" class="tab-section">
             <?php if (count($data['availableCourses']) > 0): ?>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <?php foreach ($data['availableCourses'] as $course): ?>
-                        <div class="bg-white rounded-lg shadow-lg hover:shadow-2xl transition hover:-translate-y-1 p-6 border-l-4 border-purple-500 shadow-purple-500/30">
-                            <p class="text-purple-600 font-bold text-sm mb-1"><?= htmlspecialchars($course['course_code']) ?></p>
-                            <h3 class="text-lg font-bold text-gray-800 mb-3"><?= htmlspecialchars($course['course_name']) ?></h3>
+                        <div class="bg-white/95 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                            <div class="mb-4">
+                                <p class="text-purple-600 font-medium text-sm"><?= htmlspecialchars($course['course_code']) ?></p>
+                                <h3 class="text-lg font-semibold text-gray-800"><?= htmlspecialchars($course['course_name']) ?></h3>
+                            </div>
                             
-                            <div class="text-sm text-gray-600 space-y-1 mb-4">
-                                <p><strong>อาจารย์:</strong> <?= htmlspecialchars($course['professor']) ?></p>
-                                <p><strong>หน่วยกิต:</strong> <?= $course['credit'] ?> | <strong>ภาค:</strong> <?= $course['semester'] ?></p>
-                                <p class="text-xs">👥 ลงทะเบียน: <strong><?= $data['enrollmentCounts'][$course['id']] ?>/<?= $course['max_students'] ?></strong> คน</p>
+                            <div class="text-sm text-gray-600 mb-4 space-y-1">
+                                <p>👨‍🏫 <?= htmlspecialchars($course['professor']) ?></p>
+                                <p> <?= $course['credit'] ?> หน่วยกิต | 📅 ภาค <?= $course['semester'] ?></p>
                             </div>
 
-                            <p class="text-sm text-gray-600 mb-4 h-12 overflow-hidden">
-                                <?= htmlspecialchars($course['description']) ?>
-                            </p>
+                            <p class="text-gray-600 text-sm mb-4"><?= htmlspecialchars($course['description']) ?></p>
 
                             <button onclick="enrollConfirm(<?= $course['id'] ?>, '<?= htmlspecialchars($course['course_name']) ?>')" 
-                                class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded-lg transition shadow-purple-500/50">
+                                class="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-lg transition">
                                 ลงทะเบียน
                             </button>
                         </div>
                     <?php endforeach; ?>
                 </div>
             <?php else: ?>
-                <div class="bg-white rounded-lg shadow-lg p-12 text-center text-gray-600">
-                    <p class="text-lg">ไม่มีวิชาที่สามารถลงทะเบียนได้</p>
+                <div class="bg-white/95 backdrop-blur-sm rounded-xl p-12 text-center">
+                    <p class="text-gray-600">ไม่มีวิชาที่สามารถลงทะเบียนได้</p>
                 </div>
             <?php endif; ?>
         </section>
 
-        <!-- Enrolled Courses Section -->
+        <!-- Enrolled Courses -->
         <section id="enrolled" class="tab-section hidden">
             <?php if (count($data['enrolledCourses']) > 0): ?>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <?php foreach ($data['enrolledCourses'] as $course): ?>
-                        <div class="bg-white rounded-lg shadow-lg hover:shadow-2xl transition hover:-translate-y-1 p-6 border-l-4 border-purple-400 shadow-purple-400/30">
-                            <p class="text-purple-500 font-bold text-sm mb-1"><?= htmlspecialchars($course['course_code']) ?></p>
-                            <h3 class="text-lg font-bold text-gray-800 mb-3"><?= htmlspecialchars($course['course_name']) ?></h3>
+                        <div class="bg-white/95 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                            <div class="mb-4">
+                                <p class="text-green-600 font-medium text-sm"><?= htmlspecialchars($course['course_code']) ?></p>
+                                <h3 class="text-lg font-semibold text-gray-800"><?= htmlspecialchars($course['course_name']) ?></h3>
+                            </div>
                             
-                            <div class="text-sm text-gray-600 space-y-1 mb-4">
-                                <p><strong>อาจารย์:</strong> <?= htmlspecialchars($course['professor']) ?></p>
-                                <p><strong>หน่วยกิต:</strong> <?= $course['credit'] ?> | <strong>ภาค:</strong> <?= $course['semester'] ?></p>
-                                <p class="text-xs text-purple-600">✓ ลงทะเบียน: <?= date('d/m/Y', strtotime($course['enrolled_at'])) ?></p>
+                            <div class="text-sm text-gray-600 mb-4 space-y-1">
+                                <p>👨‍🏫 <?= htmlspecialchars($course['professor']) ?></p>
+                                <p>� <?= $course['credit'] ?> หน่วยกิต | 📅 ภาค <?= $course['semester'] ?></p>
+                                <p>✅ ลงทะเบียน: <?= date('d/m/Y', strtotime($course['enrolled_at'])) ?></p>
                             </div>
 
-                            <p class="text-sm text-gray-600 mb-4 h-12 overflow-hidden">
-                                <?= htmlspecialchars($course['description']) ?>
-                            </p>
+                            <p class="text-gray-600 text-sm mb-4"><?= htmlspecialchars($course['description']) ?></p>
 
                             <button onclick="withdrawConfirm(<?= $course['id'] ?>, '<?= htmlspecialchars($course['course_name']) ?>')" 
-                                class="w-full bg-purple-400 hover:bg-purple-500 text-white font-bold py-2 rounded-lg transition shadow-purple-400/50">
+                                class="w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg transition">
                                 ถอนวิชา
                             </button>
                         </div>
                     <?php endforeach; ?>
                 </div>
             <?php else: ?>
-                <div class="bg-white rounded-lg shadow-lg p-12 text-center text-gray-600">
-                    <p class="text-lg">คุณยังไม่ได้ลงทะเบียนวิชาใด</p>
+                <div class="bg-white/95 backdrop-blur-sm rounded-xl p-12 text-center">
+                    <p class="text-gray-600">คุณยังไม่ได้ลงทะเบียนวิชาใด</p>
                 </div>
             <?php endif; ?>
         </section>
-    </div>
+    </main>
 
-    <!-- Confirmation Modal -->
-    <div id="modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-lg shadow-2xl p-6 max-w-sm w-full border-2 border-purple-500 shadow-purple-500/50">
-            <h2 id="modalTitle" class="text-xl font-bold text-gray-800 mb-3"></h2>
+    <!-- Modal -->
+    <div id="modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-xl p-6 max-w-sm w-full">
+            <h2 id="modalTitle" class="text-lg font-semibold text-gray-800 mb-3"></h2>
             <p id="modalMessage" class="text-gray-600 mb-6"></p>
             <div class="flex gap-3">
-                <button onclick="submitAction()" id="confirmBtn" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded-lg transition shadow-purple-500/50">
+                <button onclick="submitAction()" id="confirmBtn" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-lg">
                     ยืนยัน
                 </button>
-                <button onclick="closeModal()" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 rounded-lg transition">
+                <button onclick="closeModal()" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 rounded-lg">
                     ยกเลิก
                 </button>
             </div>
@@ -128,18 +129,16 @@
             // ซ่อนทั้งหมด
             document.querySelectorAll('.tab-section').forEach(el => {
                 el.classList.add('hidden');
-                el.classList.remove('active');
             });
             document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active', 'bg-white', 'text-purple-600');
-                btn.classList.add('inactive', 'bg-gray-100', 'text-gray-600');
+                btn.classList.remove('bg-white', 'text-purple-700');
+                btn.classList.add('text-white/70');
             });
 
             // แสดงที่เลือก
             document.getElementById(tabName).classList.remove('hidden');
-            document.getElementById(tabName).classList.add('active');
-            document.getElementById('btn-' + tabName).classList.remove('inactive', 'bg-gray-100', 'text-gray-600');
-            document.getElementById('btn-' + tabName).classList.add('active', 'bg-white', 'text-purple-600');
+            document.getElementById('btn-' + tabName).classList.remove('text-white/70');
+            document.getElementById('btn-' + tabName).classList.add('bg-white', 'text-purple-700');
         }
 
         // ยืนยันการลงทะเบียน
