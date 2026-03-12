@@ -1,4 +1,16 @@
-RewriteEngine on
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule . index.php [L]
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Prevent rewriting actual files and directories
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    
+    # Rewrite all requests to index.php
+    RewriteRule . index.php [L]
+</IfModule>
+
+# Alternative if mod_rewrite doesn't work
+<FilesMatch "\.php$">
+    Order allow,deny
+    Allow from all
+</FilesMatch>

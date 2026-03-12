@@ -7,7 +7,7 @@ session_start();
 const INCLUDES_DIR = __DIR__ . '/../includes';
 const ROUTE_DIR = __DIR__ . '/../routes';
 const TEMPLATES_DIR = __DIR__ . '/../templates';
-const DATABASES_DIR = __DIR__ . '/../databases';
+const DATABASES_DIR = __DIR__ . '/../databases/';
 
 // รวมไฟล์ที่จำเป็น เข้ามาใช้งานใน index.php
 require_once INCLUDES_DIR . '/router.php';

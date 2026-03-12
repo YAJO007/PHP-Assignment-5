@@ -14,6 +14,11 @@ const INDEX_ROUNTE = 'home';
 // ฟังชันสำหรับทำให้ URI ที่ร้องขอเข้ามาอยู่ในรูปแบบมาตรฐาน
 function normalizeUri(string $uri): string
 {
+    // ลบ query string ออก (ส่วนหลัง ?)
+    if (strpos($uri, '?') !== false) {
+        $uri = substr($uri, 0, strpos($uri, '?'));
+    }
+    
     // ลบเครื่องหมาย '/' ที่อยู่ข้างหน้าและข้างหลังออก และแปลงเป็นตัวพิมพ์เล็ก
     $uri = strtolower(trim($uri, '/'));
 
