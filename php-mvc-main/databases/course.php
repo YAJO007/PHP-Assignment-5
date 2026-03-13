@@ -125,3 +125,69 @@ function withdrawCourse(int $userId, int $courseId): bool
 
     return $stmt->execute();
 }
+
+function addCourse(string $courseCode, string $courseName, int $credit, int $semester, int $maxStudents, string $professor, string $description = ''): array
+{
+    $conn = getConnection();
+    
+    // ตรวจสอบรหัสวิชาซ้ำ
+    $courseCodeCheckSql = "SELECT id FROM courses WHERE course_code = ?";
+    $courseCodeStmt = $conn->prepare($courseCodeCheckSql);
+    $courseCodeStmt->bind_param("s", $courseCode);
+    $courseCodeStmt->execute();
+    $courseCodeResult = $courseCodeStmt->get_result();
+    
+    if ($courseCodeResult->num_rows > 0) {
+        return ['success' => false, 'message' => 'รหัสวิชานี้มีอยู่แล้ว'];
+    }
+    
+    // บันทึกรายวิชาใหม่
+    $sql = "INSERT INTO courses (course_code, course_name, credit, semester, max_students, professor, description, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssiiiss", $courseCode, $courseName, $credit, $semester, $maxStudents, $professor, $description);
+    
+    if ($stmt->execute()) {
+        return ['success' => true, 'message' => 'เพิ่มรายวิชาสำเร็จ!'];
+    } else {
+        return ['success' => false, 'message' => 'เกิดข้อผิดพลาด: ' . $stmt->error];
+    }
+}
+
+function deleteCourse(int $courseId): array
+{
+    $conn = getConnection();
+    
+    // ตรวจสอบว่ามีวิชานี้อยู่จริงหรือไม่
+    $checkSql = "SELECT id FROM courses WHERE id = ?";
+    $checkStmt = $conn->prepare($checkSql);
+    $checkStmt->bind_param("i", $courseId);
+    $checkStmt->execute();
+    $checkResult = $checkStmt->get_result();
+    
+    if ($checkResult->num_rows === 0) {
+        return ['success' => false, 'message' => 'ไม่พบรายวิชานี้'];
+    }
+    
+    // ตรวจสอบว่ามีนักเรียนลงทะเบียนหรือไม่
+    $enrollmentCheckSql = "SELECT COUNT(*) as count FROM enrollments WHERE course_id = ?";
+    $enrollmentStmt = $conn->prepare($enrollmentCheckSql);
+    $enrollmentStmt->bind_param("i", $courseId);
+    $enrollmentStmt->execute();
+    $enrollmentResult = $enrollmentStmt->get_result();
+    $enrollmentRow = $enrollmentResult->fetch_assoc();
+    
+    if ($enrollmentRow['count'] > 0) {
+        return ['success' => false, 'message' => 'ไม่สามารถลบรายวิชาที่มีนักเรียนลงทะเบียนแล้วได้'];
+    }
+    
+    // ลบรายวิชา
+    $sql = "DELETE FROM courses WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $courseId);
+    
+    if ($stmt->execute()) {
+        return ['success' => true, 'message' => 'ลบรายวิชาสำเร็จ!'];
+    } else {
+        return ['success' => false, 'message' => 'เกิดข้อผิดพลาด: ' . $stmt->error];
+    }
+}

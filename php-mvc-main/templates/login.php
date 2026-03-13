@@ -45,11 +45,18 @@
                 </button>
             </form>
 
-            <!-- Demo Info -->
-            <div class="mt-6 pt-6 border-t border-gray-200">
-                <p class="text-xs text-gray-500 text-center mb-2">บัญชีสำหรับทดลอง</p>
-                <div class="text-center">
-                    <span class="text-xs text-gray-600">demo / 1234</span>
+            <!-- Back to Register -->
+            <div class="mt-6 pt-6 border-t border-gray-200 text-center">
+                <p class="text-sm text-gray-600 mb-3">
+                    ยังไม่มีบัญชี? 
+                    <a href="/register" class="text-purple-600 hover:text-purple-700 font-medium">สมัครสมาชิก</a>
+                </p>
+                
+                <div class="border-t border-gray-200 pt-3">
+                    <p class="text-xs text-gray-500 text-center mb-2">บัญชีสำหรับทดลอง</p>
+                    <div class="text-center">
+                        <span class="text-xs text-gray-600">demo / 1234</span>
+                    </div>
                 </div>
             </div>
         </div>

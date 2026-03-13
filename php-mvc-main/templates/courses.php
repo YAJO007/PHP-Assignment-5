@@ -26,16 +26,26 @@
 
         <!-- Main Content -->
     <main class="max-w-6xl mx-auto px-6 py-8">
-        <!-- Tabs -->
-        <div class="flex space-x-2 mb-8">
-            <button onclick="showTab('available')" id="btn-available" 
-                class="tab-btn bg-white text-purple-700 px-6 py-2 rounded-lg font-medium">
-                📖 วิชาที่สามารถลงทะเบียน (<?= count($data['availableCourses']) ?>)
-            </button>
-            <button onclick="showTab('enrolled')" id="btn-enrolled" 
-                class="tab-btn text-white/70 hover:text-white px-6 py-2 rounded-lg font-medium">
-                 วิชาที่ลงทะเบียนแล้ว (<?= count($data['enrolledCourses']) ?>)
-            </button>
+        <!-- Header with Add Course Button -->
+        <div class="flex justify-between items-center mb-8">
+            <div class="flex space-x-2">
+                <button onclick="showTab('available')" id="btn-available" 
+                    class="tab-btn bg-white text-purple-700 px-6 py-2 rounded-lg font-medium">
+                    📖 วิชาที่สามารถลงทะเบียน (<?= count($data['availableCourses']) ?>)
+                </button>
+                <button onclick="showTab('enrolled')" id="btn-enrolled" 
+                    class="tab-btn text-white/70 hover:text-white px-6 py-2 rounded-lg font-medium">
+                     วิชาที่ลงทะเบียนแล้ว (<?= count($data['enrolledCourses']) ?>)
+                </button>
+            </div>
+            <div class="flex gap-2">
+                <a href="/add_course" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-medium transition">
+                    ➕ เพิ่มรายวิชา
+                </a>
+                <a href="/manage_courses" class="bg-orange-600 hover:bg-orange-700 text-white px-6 py-2 rounded-lg font-medium transition">
+                    ⚙️ จัดการรายวิชา
+                </a>
+            </div>
         </div>
 
         <!-- Available Courses -->
